@@ -8,6 +8,6 @@ class Controller {
 		container.appendChild(this.canvas)
 
 		const renderer = new PathRenderer(this.canvas)
-		renderer.render(new Path(100, [new Point(5, 0), new Point(5, 100)]))
+		renderer.render(new Path(100, [new Point(5, 0), new Point(80, 120), new Point(5, 100)]))
 	}
 }

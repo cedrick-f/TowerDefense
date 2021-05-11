@@ -9,11 +9,12 @@ class PathRenderer {
 	 * @param {Path} path
 	 */
 	render(path) {
-		for (const point of path.keyPoints) {
-			this.ctx.beginPath();
-			this.ctx.moveTo(point.x, point.y);
-			this.ctx.lineTo(point.x, point.y + 1);
-			this.ctx.stroke();
+		const keyPoints = path.keyPoints
+		this.ctx.beginPath()
+		this.ctx.moveTo(keyPoints[0].x, keyPoints[0].y)
+		for (let i = 1; i < keyPoints.length; i++) {
+			this.ctx.lineTo(keyPoints[i].x, keyPoints[i].y)
 		}
+		this.ctx.stroke()
 	}
 }
