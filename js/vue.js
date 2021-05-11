@@ -1,27 +1,19 @@
-class Path {
-
-	/**
-	 * @param {number} width
-	 * @param {Point[]} keyPoints
-	 */
-	constructor(width, keyPoints) {
-		if (keyPoints.length < 2) {
-			throw new Error("Not enough keypoints")
-		}
-		this.width = width
-		this.branchs = []
-		this.keyPoints = keyPoints
+class PathRenderer {
+	
+	constructor(canvas) {
+		this.canvas = canvas
+		this.ctx = canvas.getContext('2d')
 	}
-}
-
-class Point {
-
+	
 	/**
-	 * @param {number} x
-	 * @param {number} y
+	 * @param {Path} path
 	 */
-	constructor(x, y) {
-		this.x = x
-		this.y = y
+	render(path) {
+		for (const point of path.keyPoints) {
+			this.ctx.beginPath();
+			this.ctx.moveTo(point.x, point.y);
+			this.ctx.lineTo(point.x, point.y + 1);
+			this.ctx.stroke();
+		}
 	}
 }
