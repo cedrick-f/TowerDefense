@@ -1,3 +1,19 @@
+class Entity {
+
+	/**
+	 * @param {Point} pos
+	 * @param {number} width
+	 * @param {number} height
+	 * @param {string} [style]
+	 */
+	constructor(pos, width, height, style = 'red') {
+		this.pos = pos
+		this.width = width
+		this.height = height
+		this.style = style;
+	}
+}
+
 class Path {
 
 	/**
