@@ -1,16 +1,32 @@
 class Entity {
 
 	/**
-	 * @param {Point} pos
-	 * @param {number} width
-	 * @param {number} height
+	 * @param {Path} path Chemin où est l'entité
+	 * @param {number} abscissa Abscisse curviligne entre 0 et 1 sur le chemin
+	 * @param {number} width Largeur
+	 * @param {number} height Hauteur
 	 * @param {string} [style]
 	 */
-	constructor(pos, width, height, style = 'red') {
-		this.pos = pos
+	constructor(path, abscissa, width, height, style = 'red') {
+		if (abscissa < 0 || abscissa > 1) {
+			throw new RangeError('The abscissa must be between 0 and 1.')
+		}
+		this.path = path
+		this.abscissa = abscissa
 		this.width = width
 		this.height = height
-		this.style = style;
+		this.style = style
+	}
+
+	goAhead() {
+		this.abscissa = Math.min(this.abscissa + 0.002, 1)
+	}
+
+	/**
+	 * @return {Point}
+	 */
+	getAbsolutePosition() {
+		return this.path.computeCoordinates(this.abscissa)
 	}
 }
 
@@ -27,6 +43,34 @@ class Path {
 		this.width = width
 		this.branchs = []
 		this.keyPoints = keyPoints
+
+		this.distanceKeyPoints = []
+		let prev = keyPoints[0]
+		for (let i = 1; i < keyPoints.length; i++) {
+			this.distanceKeyPoints.push((prev.x-keyPoints[i].x)**2 + (prev.y-keyPoints[i].y)**2)
+			prev = keyPoints[i]
+		}
+		this.distance = this.distanceKeyPoints.reduce((acc, distance) => acc + distance, 0)
+	}
+
+	/**
+	 * @param {number} abscissa
+	 * @return {Point}
+	 */
+	computeCoordinates(abscissa) {
+		let pos = 0
+		let ratio = 0;
+		const keyPointIndex = this.distanceKeyPoints.findIndex(localDistance => {
+			ratio = localDistance / this.distance
+			pos += ratio
+			return pos >= abscissa
+		})
+		const prevKeyPoint = this.keyPoints[keyPointIndex]
+		const nextKeyPoint = this.keyPoints[keyPointIndex + 1]
+		const pFactor = (abscissa - pos + ratio) / ratio
+		const dx = nextKeyPoint.x - prevKeyPoint.x
+		const dy = nextKeyPoint.y - prevKeyPoint.y
+		return new Point(prevKeyPoint.x + dx * pFactor, prevKeyPoint.y + dy * pFactor)
 	}
 }
 

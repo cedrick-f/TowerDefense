@@ -13,19 +13,34 @@ class Controller {
 		this.pathRenderer = new PathRenderer(this.ctx)
 
 		/** @var {Entity[]} */
-		this.entities = [new Entity(new Point(0.2, 0.1), 0.05, 0.2)]
+		this.entities = [new Entity(this.paths[0], 0, 0.05, 0.2)]
 		this.entityRenderer = new EntityRenderer(this.ctx)
 
+		this.tick = this.tick.bind(this)
 		this.onResize = this.onResize.bind(this)
 		window.addEventListener('resize', this.onResize)
 		this.onResize()
+
+		this.tick()
+	}
+
+	tick() {
+		for (const entity of this.entities) {
+			entity.goAhead()
+		}
+		this.render()
+		requestAnimationFrame(this.tick)
 	}
 
 	onResize() {
-		const width = window.innerWidth
-		const height = window.innerHeight
-		this.canvas.width = width
-		this.canvas.height = height
+		this.canvas.width = window.innerWidth
+		this.canvas.height = window.innerHeight
+	}
+
+	render() {
+		const width = this.canvas.width
+		const height = this.canvas.height
+		this.ctx.clearRect(0, 0, width, height)
 		for (const path of this.paths) {
 			this.pathRenderer.render(path, width, height)
 		}

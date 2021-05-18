@@ -41,6 +41,7 @@ class EntityRenderer {
 	 */
 	render(entity, width, height) {
 		this.ctx.fillStyle = entity.style
-		this.ctx.fillRect(entity.pos.x * width, entity.pos.y * height, entity.width * width, entity.height * height)
+		const pos = entity.getAbsolutePosition()
+		this.ctx.fillRect(pos.x * width, pos.y * height, entity.width * width, entity.height * height)
 	}
 }
