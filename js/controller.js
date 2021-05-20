@@ -15,6 +15,10 @@ class Controller {
 		/** @var {Entity[]} */
 		this.entities = [new Entity(this.paths[0], 0, 0.05, 0.2)]
 		this.entityRenderer = new EntityRenderer(this.ctx)
+		
+		/** @var {Tower[]} */
+		this.towers = []
+		this.towerRenderer = new TowerRenderer(this.ctx)
 
 		this.tick = this.tick.bind(this)
 		this.onResize = this.onResize.bind(this)
@@ -22,6 +26,10 @@ class Controller {
 		this.onResize()
 
 		this.tick()
+		
+		this.canvas.addEventListener('click', this.onClick.bind(this))
+		
+		
 	}
 
 	tick() {
@@ -47,5 +55,15 @@ class Controller {
 		for (const entity of this.entities) {
 			this.entityRenderer.render(entity, width, height)
 		}
+		for (const tower of this.towers) {
+			this.towerRenderer.render(tower, width, height)
+		}
+	}
+	
+	onClick(event) {
+		console.log(event)
+		let x = event.x / this.canvas.width
+		let y = event.y / this.canvas.height
+		this.towers.push(new Tower(x, y, 0.1, 0.1))
 	}
 }
