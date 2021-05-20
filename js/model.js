@@ -85,3 +85,21 @@ class Point {
 		this.y = y
 	}
 }
+
+class Tower {
+	
+	/**
+	 * @param {number} x
+	 * @param {number} y
+	 * @param {number} width Largeur
+	 * @param {number} height Hauteur
+	 * @param {0|1|2|3} type
+	 * @param {1|2|3|4} level
+	 */
+	constructor(x, y, width, height, type = 0, level = 1) {
+		this.x = x
+		this.y = y
+		this.type = type
+		this.level = level
+	}
+}

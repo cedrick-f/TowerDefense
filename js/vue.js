@@ -45,3 +45,21 @@ class EntityRenderer {
 		this.ctx.fillRect(pos.x * width, pos.y * height, entity.width * width, entity.height * height)
 	}
 }
+
+class TowerRenderer {
+	
+	/**
+	 * @param {CanvasRenderingContext2D} ctx
+	 */
+	constructor(ctx) {
+		this.ctx = ctx
+	}
+	
+	/**
+	 *
+	 */
+	render(tower, width, height) {
+		this.ctx.fillStyle = ['rgb(255, 240, 0)', 'rgb(255, 220, 0)', 'rgb(255, 200, 0)', 'rgb(255, 180, 0)'][tower.type]
+		this.ctx.fillRect(tower.x * width, tower.y * height, tower.width * width, entity.height * height)
+	}
+}
