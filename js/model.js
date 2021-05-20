@@ -110,7 +110,7 @@ class Tower {
 	 * @return {boolean}
 	 */
 	hasCollisionWith(tower) {
-		if (tower.x <= this.x + this.width && tower.x >= this.x) {
+		if (tower.x <= this.x + this.width && tower.x + tower.width >= this.x) {
 			if (tower.y <= this.y + this.height && tower.y >= this.y) {
 				return true
 			}

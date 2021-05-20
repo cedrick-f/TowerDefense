@@ -65,7 +65,7 @@ class Controller {
 		let y = event.y / this.canvas.height
 		let tower = new Tower(x, y, 0.1, 0.1)
 		for (let existingTower of this.towers) {
-			if (existingTower.hasCollisionWith(tower)) {
+			if (existingTower.hasCollisionWith(tower) || tower.hasCollisionWith(existingTower)) {
 				return
 			}
 		}
