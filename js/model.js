@@ -103,7 +103,29 @@ class Tower {
 		this.height = height
 		this.type = type
 		this.level = level
+		this.setRange()
 	}
+	
+	setRange() {
+		this.range = 0.1
+	}
+	
+	checkRange() {
+		if (this.locked == undefined) {
+			for (e of controller.entities) {
+				pos = e.getAbsolutePosition()
+				if ((pos.x-this.x)**2 + (pos.y-this.y)**2 <= this.range**2) {
+					this.locked = elementFromPoint
+				}
+			}
+		} else {
+			pos = this.locked.getAbsolutePosition()
+			
+			if ((pos.x-this.x)**2 + (pos.y-this.y)**2 > this.range**2) {
+				this.locked = undefined
+			}
+	}
+}
 	
 	/** 
 	 * @param {Tower} tower
