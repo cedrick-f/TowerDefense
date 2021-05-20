@@ -61,9 +61,14 @@ class Controller {
 	}
 	
 	onClick(event) {
-		console.log(event)
 		let x = event.x / this.canvas.width
 		let y = event.y / this.canvas.height
-		this.towers.push(new Tower(x, y, 0.1, 0.1))
+		let tower = new Tower(x, y, 0.1, 0.1)
+		for (let existingTower of this.towers) {
+			if (existingTower.hasCollisionWith(tower)) {
+				return
+			}
+		}
+		this.towers.push(tower)
 	}
 }

@@ -104,4 +104,17 @@ class Tower {
 		this.type = type
 		this.level = level
 	}
+	
+	/** 
+	 * @param {Tower} tower
+	 * @return {boolean}
+	 */
+	hasCollisionWith(tower) {
+		if (tower.x <= this.x + this.width && tower.x >= this.x) {
+			if (tower.y <= this.y + this.height && tower.y >= this.y) {
+				return true
+			}
+		}
+		return false
+	}
 }
