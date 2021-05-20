@@ -99,6 +99,8 @@ class Tower {
 	constructor(x, y, width, height, type = 0, level = 1) {
 		this.x = x
 		this.y = y
+		this.width = width
+		this.height = height
 		this.type = type
 		this.level = level
 	}
