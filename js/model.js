@@ -3,23 +3,23 @@ class Entity {
 	/**
 	 * @param {Path} path Chemin où est l'entité
 	 * @param {number} abscissa Abscisse curviligne entre 0 et 1 sur le chemin
-	 * @param {number} width Largeur
-	 * @param {number} height Hauteur
-	 * @param {string} [style]
+	 * @param {object} type
 	 */
-	constructor(path, abscissa, width, height, style = 'red') {
+	constructor(path, abscissa, type = entityTypes.normal) {
 		if (abscissa < 0 || abscissa > 1) {
 			throw new RangeError('The abscissa must be between 0 and 1.')
 		}
 		this.path = path
 		this.abscissa = abscissa
-		this.width = width
-		this.height = height
-		this.style = style
+		this.width = type.width
+		this.height = type.height
+		this.style = type.style
+		this.life = type.life
+		this.speed = type.speed
 	}
 
-	goAhead() {
-		this.abscissa = Math.min(this.abscissa + 0.002, 1)
+	tick() {
+		this.abscissa = Math.min(this.abscissa + this.speed, 1)
 	}
 
 	/**
@@ -103,26 +103,32 @@ class Tower {
 		this.height = height
 		this.type = type
 		this.level = level
+		this.locked = null
 		this.setRange()
 	}
 	
 	setRange() {
-		this.range = 0.1
+		this.range = 0.2
 	}
 	
-	checkRange() {
-		if (this.locked == undefined) {
-			for (e of controller.entities) {
-				pos = e.getAbsolutePosition()
+	/**
+	 * @param {Entity[]} entities
+	 */
+	checkRange(entities) {
+		if (this.locked == null) {
+			console.log("unlocked")
+			for (const e of entities) {
+				let pos = e.getAbsolutePosition()
 				if ((pos.x-this.x)**2 + (pos.y-this.y)**2 <= this.range**2) {
-					this.locked = elementFromPoint
+					this.locked = e
 				}
 			}
 		} else {
-			pos = this.locked.getAbsolutePosition()
-			
+			let pos = this.locked.getAbsolutePosition()
+			console.log("locked")
+			this.locked.life --
 			if ((pos.x-this.x)**2 + (pos.y-this.y)**2 > this.range**2) {
-				this.locked = undefined
+				this.locked = null
 			}
 	}
 }

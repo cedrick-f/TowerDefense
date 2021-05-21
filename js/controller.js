@@ -13,7 +13,7 @@ class Controller {
 		this.pathRenderer = new PathRenderer(this.ctx)
 
 		/** @var {Entity[]} */
-		this.entities = [new Entity(this.paths[0], 0, 0.05, 0.2)]
+		this.entities = [new Entity(this.paths[0], 0)]
 		this.entityRenderer = new EntityRenderer(this.ctx)
 		
 		/** @var {Tower[]} */
@@ -33,8 +33,14 @@ class Controller {
 	}
 
 	tick() {
-		for (const entity of this.entities) {
-			entity.goAhead()
+		for (let i = this.entities.length-1; i >= 0; i--) {
+			this.entities[i].tick()
+			if (this.entities[i].life <= 0) {
+				this.entities.splice(i, 1)
+			}
+		}
+		for (const tower of this.towers) {
+			tower.checkRange(this.entities)
 		}
 		this.render()
 		requestAnimationFrame(this.tick)
