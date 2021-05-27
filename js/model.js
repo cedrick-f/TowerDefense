@@ -3,7 +3,7 @@ class Entity {
 	/**
 	 * @param {Path} path Chemin où est l'entité
 	 * @param {number} abscissa Abscisse curviligne entre 0 et 1 sur le chemin
-	 * @param {object} type
+	 * @param {EntityType} type
 	 */
 	constructor(path, abscissa, type = entityTypes.normal) {
 		if (abscissa < 0 || abscissa > 1) {
@@ -15,7 +15,7 @@ class Entity {
 		this.height = type.height
 		this.style = type.style
 		this.life = type.life
-		this.speed = type.speed
+		this.speed = type.speed || 0.002
 	}
 
 	tick() {
