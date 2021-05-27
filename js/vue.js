@@ -20,7 +20,6 @@ class PathRenderer {
 		for (let i = 1; i < keyPoints.length; i++) {
 			this.ctx.lineTo(keyPoints[i].x * width, keyPoints[i].y * height)
 		}
-		this.ctx.closePath()
 		this.ctx.stroke()
 	}
 }

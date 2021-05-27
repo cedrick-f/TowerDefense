@@ -65,8 +65,16 @@ class Controller {
 	}
 
 	onResize() {
-		this.canvas.width = window.innerWidth
-		this.canvas.height = window.innerHeight
+		// Dimensions de base du canevas, qui seront modifiées en respectant le ratio existant
+		const baseWidth = 400
+		const baseHeight = 175
+
+		// On prend le minimum entre ce que l'on peut étendre en largeur et en hauteur
+		const factor = Math.min(window.innerWidth / baseWidth, window.innerHeight / baseHeight)
+
+		// On affecte les nouvelles dimensions calculées d'après les dimensions de la fenêtre
+		this.canvas.width = baseWidth * factor
+		this.canvas.height = baseHeight * factor
 	}
 
 	render() {
@@ -88,8 +96,8 @@ class Controller {
 	 * @param {MouseEvent} event
 	 */
 	onClick(event) {
-		let x = event.x / this.canvas.width
-		let y = event.y / this.canvas.height
+		let x = event.offsetX / this.canvas.width
+		let y = event.offsetY / this.canvas.height
 		let tower = new Tower(x, y, 0.1, 0.1)
 		for (let existingTower of this.towers) {
 			if (existingTower.hasCollisionWith(tower) || tower.hasCollisionWith(existingTower)) {
