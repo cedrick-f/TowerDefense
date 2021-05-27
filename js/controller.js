@@ -65,8 +65,16 @@ class Controller {
 	}
 
 	onResize() {
-		this.canvas.width = window.innerWidth
-		this.canvas.height = window.innerHeight
+		// Dimensions de base du canevas, qui seront modifiées en respectant le ratio existant
+		const baseWidth = 400
+		const baseHeight = 175
+
+		// On prend le minimum entre ce que l'on peut étendre en largeur et en hauteur
+		const factor = Math.min(window.innerWidth / baseWidth, window.innerHeight / baseHeight)
+
+		// On affecte les nouvelles dimensions calculées d'après les dimensions de la fenêtre
+		this.canvas.width = baseWidth * factor
+		this.canvas.height = baseHeight * factor
 	}
 
 	render() {
