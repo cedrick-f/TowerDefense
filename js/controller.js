@@ -13,7 +13,7 @@ class Controller {
 		this.pathRenderer = new PathRenderer(this.ctx)
 
 		/** @var {Entity[]} */
-		this.entities = [new Entity(this.paths[0], 0)]
+		this.entities = []
 		this.entityRenderer = new EntityRenderer(this.ctx)
 		
 		/** @var {Tower[]} */
@@ -25,16 +25,33 @@ class Controller {
 		window.addEventListener('resize', this.onResize)
 		this.onResize()
 
-		this.tick()
-		
 		this.canvas.addEventListener('click', this.onClick.bind(this))
-		
-		
+
+		this.lastTick = 0
+		requestAnimationFrame(this.tick)
 	}
 
-	tick() {
+	/**
+	 * @param {number} timestamp
+	 */
+	tick(timestamp) {
+		const diff = timestamp - this.lastTick
+
+		for (const wave of level) {
+			if (this.lastTick >= wave.time || timestamp < wave.time) {
+				continue
+			}
+			if (wave.count) {
+				for (let i = 0; i < wave.count; i++) {
+					this.entities.push(Entity.fromWave(wave, this.paths))
+				}
+			} else {
+				this.entities.push(Entity.fromWave(wave, this.paths))
+			}
+		}
+
 		for (let i = this.entities.length-1; i >= 0; i--) {
-			this.entities[i].tick()
+			this.entities[i].tick(diff)
 			if (this.entities[i].life <= 0) {
 				this.entities.splice(i, 1)
 			}
@@ -43,6 +60,7 @@ class Controller {
 			tower.checkRange(this.entities)
 		}
 		this.render()
+		this.lastTick = timestamp
 		requestAnimationFrame(this.tick)
 	}
 
@@ -65,7 +83,10 @@ class Controller {
 			this.towerRenderer.render(tower, width, height)
 		}
 	}
-	
+
+	/**
+	 * @param {MouseEvent} event
+	 */
 	onClick(event) {
 		let x = event.x / this.canvas.width
 		let y = event.y / this.canvas.height

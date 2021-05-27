@@ -18,8 +18,11 @@ class Entity {
 		this.speed = type.speed || 0.002
 	}
 
-	tick() {
-		this.abscissa = Math.min(this.abscissa + this.speed, 1)
+	/**
+	 * @param {number} delay
+	 */
+	tick(delay) {
+		this.abscissa = Math.min(this.abscissa + this.speed * (delay >> 4), 1)
 	}
 
 	/**
@@ -27,6 +30,14 @@ class Entity {
 	 */
 	getAbsolutePosition() {
 		return this.path.computeCoordinates(this.abscissa)
+	}
+
+	/**
+	 * @param {Wave} wave
+	 * @param {Path[]} paths
+	 */
+	static fromWave(wave, paths) {
+		return new Entity(paths[wave.path || 0], typeof wave.count === 'number' ? Math.random() / 10 : 0, wave.entity)
 	}
 }
 
