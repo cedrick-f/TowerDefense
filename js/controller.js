@@ -57,7 +57,7 @@ class Controller {
 			}
 		}
 		for (const tower of this.towers) {
-			tower.checkRange(this.entities)
+			tower.checkRange(this.entities, timestamp)
 		}
 		this.render()
 		this.lastTick = timestamp

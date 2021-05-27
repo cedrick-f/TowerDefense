@@ -115,19 +115,16 @@ class Tower {
 		this.type = type
 		this.level = level
 		this.locked = null
-		this.setRange()
-	}
-	
-	setRange() {
+		this.attackSpeed = 1000
 		this.range = 0.2
+		this.lastShot = 0
 	}
 	
 	/**
 	 * @param {Entity[]} entities
 	 */
-	checkRange(entities) {
+	checkRange(entities, stamp) {
 		if (this.locked == null) {
-			console.log("unlocked")
 			for (const e of entities) {
 				let pos = e.getAbsolutePosition()
 				if ((pos.x-this.x)**2 + (pos.y-this.y)**2 <= this.range**2) {
@@ -135,9 +132,11 @@ class Tower {
 				}
 			}
 		} else {
+			if (stamp - this.lastShot >= this.attackSpeed) {
+				this.locked.life -= 40
+				this.lastShot = stamp
+			}
 			let pos = this.locked.getAbsolutePosition()
-			console.log("locked")
-			this.locked.life --
 			if ((pos.x-this.x)**2 + (pos.y-this.y)**2 > this.range**2) {
 				this.locked = null
 			}
