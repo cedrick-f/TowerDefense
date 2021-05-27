@@ -96,8 +96,8 @@ class Controller {
 	 * @param {MouseEvent} event
 	 */
 	onClick(event) {
-		let x = event.x / this.canvas.width
-		let y = event.y / this.canvas.height
+		let x = event.offsetX / this.canvas.width
+		let y = event.offsetY / this.canvas.height
 		let tower = new Tower(x, y, 0.1, 0.1)
 		for (let existingTower of this.towers) {
 			if (existingTower.hasCollisionWith(tower) || tower.hasCollisionWith(existingTower)) {
