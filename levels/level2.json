@@ -1,0 +1,10 @@
+{
+  "paths": [
+    [{"x": 0.1, "y": 0.1}, {"x": 0.3, "y": 0.1}, {"x": 0.7, "y": 0.6}, {"x": 0.2, "y": 0.9}]
+  ],
+  "waves": [
+    { "time": 10, "entity": "normal" },
+    { "time": 4000, "entity": "normal" },
+    { "time": 10000, "entity": "demon", "count": 1 }
+  ]
+}
