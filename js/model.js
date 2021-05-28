@@ -122,9 +122,11 @@ class Tower {
 	
 	/**
 	 * @param {Entity[]} entities
+	 * @param {number} timestamp
 	 */
-	checkRange(entities, stamp) {
-		if (this.locked == null) {
+	checkRange(entities, timestamp) {
+		if (this.locked === null || this.locked.life < 1) {
+			this.locked = null
 			for (const e of entities) {
 				let pos = e.getAbsolutePosition()
 				if ((pos.x-this.x)**2 + (pos.y-this.y)**2 <= this.range**2) {
@@ -132,9 +134,9 @@ class Tower {
 				}
 			}
 		} else {
-			if (stamp - this.lastShot >= this.attackSpeed) {
+			if (timestamp - this.lastShot >= this.attackSpeed) {
 				this.locked.life -= 40
-				this.lastShot = stamp
+				this.lastShot = timestamp
 			}
 			let pos = this.locked.getAbsolutePosition()
 			if ((pos.x-this.x)**2 + (pos.y-this.y)**2 > this.range**2) {
