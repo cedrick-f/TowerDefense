@@ -104,19 +104,19 @@ class Tower {
 	 * @param {number} y
 	 * @param {number} width Largeur
 	 * @param {number} height Hauteur
-	 * @param {0|1|2|3} type
+	 * @param {towerType} type
 	 * @param {1|2|3|4} level
 	 */
-	constructor(x, y, width, height, type = 0, level = 1) {
+	constructor(x, y, width, height, type = towerType.normal, level = 1) {
 		this.x = x
 		this.y = y
 		this.width = width
 		this.height = height
-		this.type = type
 		this.level = level
+		type = towerTypes.type
 		this.locked = null
-		this.attackSpeed = 1000
-		this.range = 0.2
+		this.attackSpeed = type.attackSpeed
+		this.range = type.range
 		this.lastShot = 0
 	}
 	
