@@ -20,14 +20,9 @@ const entityTypes = {
 	normal: {life: 100, width: 0.1, height: 0.1, style: 'red'}
 }
 
-
-const towerTypes = {
-	normal: {attackSpeed: 1000, range: 0.3}
-}
-
 /** @type {Wave[]} */
 const level = [
-	{ time: 10, entity: entityTypes.normal},
-	{ time: 4000, entity: entityTypes.normal},
-	{ time: 10000, entity: entityTypes.normal, count: 2},
+	{ time: 10, entity: entityTypes.normal },
+	{ time: 4000, entity: entityTypes.normal },
+	{ time: 10000, entity: entityTypes.normal, count: 2 },
 ]
