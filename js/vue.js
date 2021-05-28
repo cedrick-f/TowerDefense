@@ -62,3 +62,23 @@ class TowerRenderer {
 		this.ctx.fillRect((tower.x-tower.width/2) * width, (tower.y-tower.height/2) * height, tower.width * width, tower.height * height)
 	}
 }
+
+class RayRenderer {
+
+	/**
+	 * @param {CanvasRenderingContext2D} ctx
+	 */
+	constructor(ctx) {
+	this.ctx = ctx
+	}
+
+	render(tower, entity){
+		this.ctx.beginPath()
+		this.ctx.fillStyle("blue")
+		this.ctx.moveTo(tower.x, toxer.y)
+		pos = entity.getAbsolutePosition()
+		this.ctx.lineTo(pos.x, pos.y)
+		this.ctx.stroke()
+	}
+	
+}
