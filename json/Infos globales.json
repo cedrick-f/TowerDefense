@@ -1,0 +1,43 @@
+chemin = {
+	"points_de_chemin1" : "(0.1, 0.6), (0.5, 0.3), (0.9, 0.9)"
+	}
+}
+
+towers_types = {
+	"type1" : {
+		"color" : "rgb(255, 240, 0)",
+		"size" : {
+			"height" : "0.1",
+			"weidth" : "0.1",
+		},
+	},
+	"type1" : {
+		"color" : "rgb(255, 220, 0)",
+		"size" : {
+			"height" : "0.1",
+			"weidth" : "0.1",
+		},
+	},
+	"type1" : {
+		"color" : "rgb(255, 200, 0)",
+		"size" : {
+			"height" : "0.1",
+			"weidth" : "0.1",
+		},
+	},
+	"type1" : {
+		"color" : "rgb(255, 180, 0)",
+		"size" : {
+			"height" : "0.1",
+			"weidth" : "0.1",
+		},
+	}
+}
+
+entities = {
+	"color" : "rgb(255, 0, 0)",
+	"size" : {
+		"height" : "0.1",
+		"weidth" : "0.1",
+	},
+}
