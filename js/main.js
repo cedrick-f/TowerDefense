@@ -1,3 +1,11 @@
-const container = document.body
+/**
+ * @param {RequestInfo} input
+ * @return {Promise<LevelData>}
+ */
+async function fetchJson(input) {
+    return await (await fetch(input)).json()
+}
 
-new Controller(container)
+fetchJson('levels/level1.json')
+    .then(levelData => new Controller(document.body, levelData))
+

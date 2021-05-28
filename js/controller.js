@@ -2,26 +2,52 @@ class Controller {
 
 	/**
 	 * @param {HTMLElement} container
+	 * @param {LevelData} levelData
 	 */
-	constructor(container) {
+	constructor(container, levelData) {
+		// Initialisation du DOM
 		this.canvas = document.createElement('canvas')
 		container.appendChild(this.canvas)
 		this.ctx = this.canvas.getContext('2d')
 
+		// Création des chemins d'après les données du niveau, listés dans un tableau
 		/** @var {Path[]} */
-		this.paths = [new Path(100, [new Point(0.1, 0.6), new Point(0.5, 0.3), new Point(0.9, 0.9)])]
+		this.paths = []
 		this.pathRenderer = new PathRenderer(this.ctx)
+		for (const path of levelData.paths) {
+			const keyPoints = []
+			for (const point of path) {
+				keyPoints.push(new Point(point.x, point.y))
+			}
+			this.paths.push(new Path(100, keyPoints))
+		}
 
+		// Liste des entités encore en vie
 		/** @var {Entity[]} */
 		this.entities = []
 		this.entityRenderer = new EntityRenderer(this.ctx)
-		
+
+		// Liste des tours placées par le joueur
 		/** @var {Tower[]} */
 		this.towers = []
 		this.towerRenderer = new TowerRenderer(this.ctx)
 
+		// Liste des vagues d'ennemis
+		/** @var {Wave[]} */
+		this.waves = levelData.waves
+
+		// Validation des types d'ennemis
+		for (const wave of levelData.waves) {
+			if (!(wave.entity in entityTypes)) {
+				throw new Error('Invalid entity type (' + wave.entity + ')');
+			}
+		}
+
+		// Re-contextualisation du this
 		this.tick = this.tick.bind(this)
 		this.onResize = this.onResize.bind(this)
+
+		// Réadapte la taille du canevas lors du redimensionnement
 		window.addEventListener('resize', this.onResize)
 		this.onResize()
 
@@ -35,9 +61,11 @@ class Controller {
 	 * @param {number} timestamp
 	 */
 	tick(timestamp) {
+		// Différence de temps en millisecondes depuis le dernier tick
 		const diff = timestamp - this.lastTick
 
-		for (const wave of level) {
+		// Pour chaque vague, si une vient d'être dépassée, faire apparaître les entités
+		for (const wave of this.waves) {
 			if (this.lastTick >= wave.time || timestamp < wave.time) {
 				continue
 			}
@@ -50,16 +78,24 @@ class Controller {
 			}
 		}
 
+		// Met à jour les attributs des entités comme leur position
 		for (let i = this.entities.length-1; i >= 0; i--) {
 			this.entities[i].tick(diff)
 			if (this.entities[i].life <= 0) {
+				// Les retirer de la liste si elle n'existe plus
 				this.entities.splice(i, 1)
 			}
 		}
+
+		// Met à jour les tirs des tours
 		for (const tower of this.towers) {
 			tower.checkRange(this.entities, timestamp)
 		}
+
+		// Rendre le jeu visuellement
 		this.render()
+
+		// Planification du tick suivant
 		this.lastTick = timestamp
 		requestAnimationFrame(this.tick)
 	}
@@ -98,7 +134,7 @@ class Controller {
 	onClick(event) {
 		let x = event.offsetX / this.canvas.width
 		let y = event.offsetY / this.canvas.height
-		let tower = new Tower(x, y, 0.1, 0.1)
+		let tower = new Tower(x, y, towerTypes.normal)
 		for (let existingTower of this.towers) {
 			if (existingTower.hasCollisionWith(tower) || tower.hasCollisionWith(existingTower)) {
 				return

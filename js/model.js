@@ -3,7 +3,7 @@ class Entity {
 	/**
 	 * @param {Path} path Chemin où est l'entité
 	 * @param {number} abscissa Abscisse curviligne entre 0 et 1 sur le chemin
-	 * @param {EntityType} type
+	 * @param {EntityType} type Type de l'entité
 	 */
 	constructor(path, abscissa, type = entityTypes.normal) {
 		if (abscissa < 0 || abscissa > 1) {
@@ -37,7 +37,7 @@ class Entity {
 	 * @param {Path[]} paths
 	 */
 	static fromWave(wave, paths) {
-		return new Entity(paths[wave.path || 0], typeof wave.count === 'number' ? Math.random() / 10 : 0, wave.entity)
+		return new Entity(paths[wave.path || 0], typeof wave.count === 'number' ? Math.random() / 10 : 0, entityTypes[wave.entity])
 	}
 }
 
@@ -102,22 +102,21 @@ class Tower {
 	/**
 	 * @param {number} x
 	 * @param {number} y
-	 * @param {number} width Largeur
-	 * @param {number} height Hauteur
-	 * @param {0|1|2|3} type
-	 * @param {1|2|3|4} level
+	 * @param {TowerType} type Type de la tour
 	 */
-	constructor(x, y, width, height, type = 0, level = 1) {
+	constructor(x, y, type) {
 		this.x = x
 		this.y = y
-		this.width = width
-		this.height = height
-		this.type = type
-		this.level = level
+		this.width = type.width
+		this.height = type.height
+		this.level = 0
+
+		/** @var {Entity|null} */
 		this.locked = null
-		this.attackSpeed = 1000
+		this.attackDelay = type.attack_delay
 		this.range = 0.2
 		this.lastShot = 0
+		this.style = type.style
 	}
 	
 	/**
@@ -134,7 +133,7 @@ class Tower {
 				}
 			}
 		} else {
-			if (timestamp - this.lastShot >= this.attackSpeed) {
+			if (timestamp - this.lastShot >= this.attackDelay) {
 				this.locked.life -= 40
 				this.lastShot = timestamp
 			}
@@ -142,8 +141,8 @@ class Tower {
 			if ((pos.x-this.x)**2 + (pos.y-this.y)**2 > this.range**2) {
 				this.locked = null
 			}
+		}
 	}
-}
 	
 	/** 
 	 * @param {Tower} tower

@@ -8,16 +8,35 @@
  */
 
 /**
+ * @typedef {object} TowerType
+ * @property {number} width La largeur de la tour, entre 0 et 1
+ * @property {number} height La hauteur de la tour, entre 0 et 1
+ * @property {number} attack_delay Le délai entre chaque attaque, en millisecondes
+ * @property {string} [style] Le style de la tour, pour {@link CanvasRenderingContext2D#fillStyle}
+ */
+
+/**
  * @typedef {object} Wave
  * @property {number} time Le moment d'apparition, en millisecondes, depuis le début du niveau
- * @property {EntityType} entity L'entité à faire apparaître
+ * @property {string} entity L'entité à faire apparaître
  * @property {number} [count] Le nombre d'entités, par défaut 1
  * @property {number} [path] L'index du chemin sur lequel commencer
+ */
+
+/**
+ * @typedef {object} LevelData
+ * @property {Point[][]} paths
+ * @property {Wave[]} waves
  */
 
 /** @type {Object.<string, EntityType>} */
 const entityTypes = {
 	normal: {life: 100, width: 0.1, height: 0.1, style: 'red'}
+}
+
+/** @type {Object.<string, TowerType>} */
+const towerTypes = {
+	normal: {width: 0.1, height: 0.1, attack_delay: 1000, style: 'rgb(255, 240, 0)'}
 }
 
 /** @type {Wave[]} */
