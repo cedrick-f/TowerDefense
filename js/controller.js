@@ -43,6 +43,11 @@ class Controller {
 			}
 		}
 
+		this.life = 100
+		this.money = 100
+		this.logger = new MessageLogger()
+		this.messageView = new MessageView(container.querySelector('#hud'), container.querySelector('#messages'))
+
 		// Re-contextualisation du this
 		this.tick = this.tick.bind(this)
 		this.onResize = this.onResize.bind(this)
@@ -80,9 +85,17 @@ class Controller {
 
 		// Met à jour les attributs des entités comme leur position
 		for (let i = this.entities.length-1; i >= 0; i--) {
-			this.entities[i].tick(diff)
-			if (this.entities[i].life <= 0) {
-				// Les retirer de la liste si elle n'existe plus
+			const entity = this.entities[i]
+			entity.tick(diff)
+			if (entity.abscissa >= 1) {
+				// L'entité a fini le parcours, le joueur perd des points
+				this.life -= 10
+				this.entities.splice(i, 1)
+			} else if (entity.life <= 0) {
+				if (entity.abscissa < 1) {
+					this.money += 10;
+				}
+				// Les retirer de la liste comme elle n'existe plus
 				this.entities.splice(i, 1)
 			}
 		}
@@ -93,7 +106,7 @@ class Controller {
 		}
 
 		// Rendre le jeu visuellement
-		this.render()
+		this.render(timestamp)
 
 		// Planification du tick suivant
 		this.lastTick = timestamp
@@ -113,7 +126,10 @@ class Controller {
 		this.canvas.height = baseHeight * factor
 	}
 
-	render() {
+	/**
+	 * @param {number} timestamp
+	 */
+	render(timestamp) {
 		const width = this.canvas.width
 		const height = this.canvas.height
 		this.ctx.clearRect(0, 0, width, height)
@@ -126,12 +142,17 @@ class Controller {
 		for (const tower of this.towers) {
 			this.towerRenderer.render(tower, width, height)
 		}
+		this.messageView.write(`Score : ${this.life} - Argent : ${this.money}`, this.logger, timestamp)
 	}
 
 	/**
 	 * @param {MouseEvent} event
 	 */
 	onClick(event) {
+		if (this.money < 50) {
+			this.logger.error('Monnaie insuffisante.')
+			return
+		}
 		let x = event.offsetX / this.canvas.width
 		let y = event.offsetY / this.canvas.height
 		let tower = new Tower(x, y, towerTypes.normal)
@@ -141,5 +162,6 @@ class Controller {
 			}
 		}
 		this.towers.push(tower)
+		this.money -= 50
 	}
 }

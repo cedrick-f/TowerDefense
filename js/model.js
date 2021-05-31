@@ -157,3 +157,28 @@ class Tower {
 		return false
 	}
 }
+
+class MessageLogger {
+
+	constructor() {
+		/** @type {LoggedMessage[]} */
+		this.queue = []
+	}
+
+	/**
+	 * @param {'info'|'warn'|'error'} level
+	 * @param {string} content
+	 * @param {number} [duration]
+	 */
+	pushMessage(level, content, duration = 5000) {
+		this.queue.push({ level, content, end_at: performance.now() + duration })
+	}
+
+	/**
+	 * @param {string} message
+	 * @param {number} [duration]
+	 */
+	error(message, duration) {
+		this.pushMessage('error', message, duration)
+	}
+}

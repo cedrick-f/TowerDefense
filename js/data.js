@@ -29,6 +29,13 @@
  * @property {Wave[]} waves
  */
 
+/**
+ * @typedef {object} LoggedMessage
+ * @property {'info'|'warn'|'error'} level Le niveau du message, son importance
+ * @property {string} content Le contenu à afficher
+ * @property {number} end_at En millisecondes, le moment à partir duquel le message peut être retiré
+ */
+
 /** @type {Object.<string, EntityType>} */
 const entityTypes = {
 	normal: {life: 100, width: 0.1, height: 0.1, style: 'red'},
@@ -41,10 +48,3 @@ const towerTypes = {
 	archery: {width: 0.1, height: 0.1, attack_delay: 1000, style: 'rgb(0, 255, 0)'}
 
 }
-
-/** @type {Wave[]} */
-const level = [
-	{ time: 10, entity: entityTypes.normal },
-	{ time: 4000, entity: entityTypes.normal },
-	{ time: 10000, entity: entityTypes.normal, count: 2 },
-]

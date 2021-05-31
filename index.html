@@ -4,10 +4,13 @@
 	<meta charset="utf-8" />
 	<title>Tower Defense</title>
 	<style>
-		body { margin: 0 auto; padding: 0; display: grid; place-items: center; }
+		body { margin: 0 auto; padding: 0; display: grid; place-items: center; font-family: sans-serif; }
+		#messages { position: absolute; right: 0; bottom: 0; }
 	</style>
 </head>
 <body>
+	<div id="hud"></div>
+	<div id="messages"></div>
 	<script src="js/data.js"></script>
 	<script src="js/model.js"></script>
 	<script src="js/vue.js"></script>

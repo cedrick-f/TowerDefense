@@ -53,9 +53,11 @@ class TowerRenderer {
 	constructor(ctx) {
 		this.ctx = ctx
 	}
-	
+
 	/**
-	 *
+	 * @param {Tower} tower
+	 * @param {number} width
+	 * @param {number} height
 	 */
 	render(tower, width, height) {
 		this.ctx.fillStyle = tower.style
@@ -81,4 +83,55 @@ class RayRenderer {
 		this.ctx.stroke()
 	}
 	
+}
+
+class MessageView {
+
+	/**
+	 * @param {HTMLElement} hud
+	 * @param {HTMLElement} messagesList
+	 */
+	constructor(hud, messagesList) {
+		this.hud = hud
+		this.messagesList = messagesList
+		/** @type {string|null} */
+		this.prevHudText = null
+		/** @type {Map<LoggedMessage, HTMLElement>} */
+		this.messages = new Map()
+	}
+
+	/**
+	 * @param {string} hudText Texte à afficher au joueur sur les points de vie et d'ennemis...
+	 * @param {MessageLogger} logger Enregistreur de messages
+	 * @param {number} timestamp Le temps écoulé depuis le début du jeu, en millisecondes
+	 */
+	write(hudText, logger, timestamp) {
+		// Pour chaque message...
+		for (let i = logger.queue.length-1; i >= 0; i--) {
+			const message = logger.queue[i]
+			let div = this.messages.get(message) // On récupère l'élément HTML associé
+
+			if (timestamp > message.end_at) {
+				// Le message a suffisamment été affiché
+				if (div) {
+					div.remove()
+					this.messages.delete(message)
+				}
+				logger.queue.splice(i, 1)
+			} else if (!div) {
+				// Le message devrait être affiché et ne l'est pas
+				div = document.createElement('div')
+				div.classList.add('message', `is-${message.level}`)
+				div.append(message.content)
+				this.messagesList.appendChild(div)
+				this.messages.set(message, div)
+			}
+		}
+
+		// Mise à jour du texte HUD
+		if (hudText !== this.prevHudText) {
+			this.hud.textContent = hudText
+			this.prevHudText = hudText
+		}
+	}
 }
