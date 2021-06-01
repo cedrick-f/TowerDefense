@@ -59,6 +59,7 @@ class Controller {
 		this.canvas.addEventListener('click', this.onClick.bind(this))
 
 		this.lastTick = 0
+		this.startTick = performance.now()
 		requestAnimationFrame(this.tick)
 	}
 
@@ -71,7 +72,7 @@ class Controller {
 
 		// Pour chaque vague, si une vient d'être dépassée, faire apparaître les entités
 		for (const wave of this.waves) {
-			if (this.lastTick >= wave.time || timestamp < wave.time) {
+			if ((this.lastTick - this.startTick) >= wave.time || (timestamp - this.startTick) < wave.time) {
 				continue
 			}
 			if (wave.count) {
