@@ -5,6 +5,6 @@
   "waves": [
     { "time": 10, "entity": "normal" },
     { "time": 4000, "entity": "normal" },
-    { "time": 10000, "entity": "demon", "count": 1 }
+    { "time": 10000, "entity": "demon", "count": 2 }
   ]
 }

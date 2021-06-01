@@ -38,13 +38,13 @@
 
 /** @type {Object.<string, EntityType>} */
 const entityTypes = {
-	normal: {life: 100, width: 0.1, height: 0.1, style: 'red'},
+	normal: {life: 100, width: 0.01, height: 0.02, style: 'red'},
 	demon: {life: 200, width: 0.1, height: 0.1, style: "rgb(175, 0, 0)"}
 }
 
 /** @type {Object.<string, TowerType>} */
 const towerTypes = {
-	normal: {width: 0.1, height: 0.1, attack_delay: 1000, style: 'rgb(255, 240, 0)'},
+	normal: {width: 0.05, height: 0.1, attack_delay: 1000, style: 'rgb(255, 240, 0)'},
 	archery: {width: 0.1, height: 0.1, attack_delay: 1000, style: 'rgb(0, 255, 0)'}
 
 }
