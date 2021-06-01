@@ -41,7 +41,7 @@ class EntityRenderer {
 	render(entity, width, height) {
 		this.ctx.fillStyle = entity.style
 		const pos = entity.getAbsolutePosition()
-		this.ctx.fillRect((pos.x-entity.width/2) * width, (pos.y-entity.height/2) * height, entity.width * width, entity.height * height)
+		this.ctx.fillRect((pos.x-entity.halfWidth) * width, (pos.y-entity.halfHeight) * height, entity.width * width, entity.height * height)
 	}
 }
 
@@ -61,7 +61,7 @@ class TowerRenderer {
 	 */
 	render(tower, width, height) {
 		this.ctx.fillStyle = tower.style
-		this.ctx.fillRect((tower.x-tower.width/2) * width, (tower.y-tower.height/2) * height, tower.width * width, tower.height * height)
+		this.ctx.fillRect((tower.x-tower.halfWidth) * width, (tower.y-tower.halfHeight) * height, tower.width * width, tower.height * height)
 	}
 }
 

@@ -1,4 +1,13 @@
-class Entity {
+class Positionnable {
+	constructor(width, height) {
+	this.width = width
+	this.height = height
+	this.halfWidth = width/2
+	this.halfHeight = height/2
+	}
+}
+
+class Entity extends Positionnable{
 
 	/**
 	 * @param {Path} path Chemin où est l'entité
@@ -6,13 +15,12 @@ class Entity {
 	 * @param {EntityType} type Type de l'entité
 	 */
 	constructor(path, abscissa, type = entityTypes.normal) {
+		super(type.width, type.height)
 		if (abscissa < 0 || abscissa > 1) {
 			throw new RangeError('The abscissa must be between 0 and 1.')
 		}
 		this.path = path
 		this.abscissa = abscissa
-		this.width = type.width
-		this.height = type.height
 		this.style = type.style
 		this.life = type.life
 		this.speed = type.speed || 0.002
@@ -97,7 +105,7 @@ class Point {
 	}
 }
 
-class Tower {
+class Tower extends Positionnable{
 	
 	/**
 	 * @param {number} x
@@ -105,10 +113,9 @@ class Tower {
 	 * @param {TowerType} type Type de la tour
 	 */
 	constructor(x, y, type) {
+		super(type.width, type.height)
 		this.x = x
 		this.y = y
-		this.width = type.width
-		this.height = type.height
 		this.level = 0
 
 		/** @var {Entity|null} */
