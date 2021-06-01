@@ -31,6 +31,7 @@ class Controller {
 		/** @var {Tower[]} */
 		this.towers = []
 		this.towerRenderer = new TowerRenderer(this.ctx)
+		this.rayRenderer = new RayRenderer(this.ctx)
 
 		// Liste des vagues d'ennemis
 		/** @var {Wave[]} */
@@ -142,6 +143,9 @@ class Controller {
 		}
 		for (const tower of this.towers) {
 			this.towerRenderer.render(tower, width, height)
+			if (tower.locked != null) {
+				this.rayRenderer.render(tower, tower.locked, width, height)
+			}
 		}
 		this.messageView.write(`Score : ${this.life} - Argent : ${this.money}`, this.logger, timestamp)
 	}

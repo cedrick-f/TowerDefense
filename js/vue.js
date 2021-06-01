@@ -74,12 +74,12 @@ class RayRenderer {
 	this.ctx = ctx
 	}
 
-	render(tower, entity){
+	render(tower, entity, width, height){
 		this.ctx.beginPath()
-		this.ctx.fillStyle("blue")
-		this.ctx.moveTo(tower.x, toxer.y)
-		pos = entity.getAbsolutePosition()
-		this.ctx.lineTo(pos.x, pos.y)
+		this.ctx.strokeStyle = "blue"
+		this.ctx.moveTo(tower.x * width,tower.y * height)
+		let pos = entity.getAbsolutePosition()
+		this.ctx.lineTo(pos.x * width, pos.y * height)
 		this.ctx.stroke()
 	}
 	
