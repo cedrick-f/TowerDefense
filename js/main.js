@@ -1,4 +1,4 @@
--/**
+/**
  * @param {RequestInfo} input
  * @return {Promise<LevelData>}
  */
